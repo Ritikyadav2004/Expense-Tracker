@@ -11,8 +11,6 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import AddExpense from './components/Expense/AddExpense';
-import EditExpense from './components/Expense/EditExpense';
-import DeleteExpense from './components/Expense/DeleteExpense';
 
 
 import ContextProvider from './context/ContextProvider';
@@ -22,7 +20,7 @@ const router=createBrowserRouter(
   <Route path='/' element={<App />}>
      
     <Route path='/' element={<Home/>}/>
-    <Route path='/dashboard' element={<ExpenseCard />} />
+    <Route path='/dashboard' element={<ExpenseCard  mode="dashboard"/>} />
     <Route path='/expenses' element={<ExpenseOption />} />
     <Route path='/login' element={<Login/>}/>
     <Route path='/signup' element={<Signup/>}/>

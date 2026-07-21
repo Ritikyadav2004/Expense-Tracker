@@ -1,18 +1,21 @@
-import React, { useState } from 'react'
-import BackButton from '../BackButton'
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-
+import BackButton from '../BackButton';
 import ExpenseSummary from '../ExpenseCard';
+import UserContext from '../../context/UserContext';
 
 const AddExpense = () => {
   const [category, setCategory] =useState('');
   const [amount , setAmount]=useState('');
   const [date , setDate]=useState('');
   
+  const { setExpenses } = useContext(UserContext) || { setExpenses: () => {} };
+  
   const handleSubmit=(e)=>{
     e.preventDefault();
 
     const expense = {
+      id: Date.now(),// this done to provide unique id to each expense
       category,
       amount,
       date
@@ -23,8 +26,11 @@ const AddExpense = () => {
     existingExpenses.push(expense);
     localStorage.setItem("expenses", JSON.stringify(existingExpenses));
 
-     alert("Expense saved!");
-  console.log("Saved expense:", expense);
+    // Update context state for real-time updates
+    setExpenses(existingExpenses);
+
+    alert("Expense saved!");
+      console.log("Saved expense:", expense);
   }
   
 

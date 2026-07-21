@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import  './index.css'
 
 import App from './App'
-import ExpenseSummary from './components/ExpenseCard';
+import ExpenseCard from './components/ExpenseCard';
 import ExpenseOption from './components/Expense/ExpenseOption';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -15,20 +15,22 @@ import EditExpense from './components/Expense/EditExpense';
 import DeleteExpense from './components/Expense/DeleteExpense';
 
 
+import ContextProvider from './context/ContextProvider';
+
 const router=createBrowserRouter(
   createRoutesFromElements(
   <Route path='/' element={<App />}>
      
     <Route path='/' element={<Home/>}/>
-    <Route path='/dashboard' element={<ExpenseSummary />} />
+    <Route path='/dashboard' element={<ExpenseCard />} />
     <Route path='/expenses' element={<ExpenseOption />} />
     <Route path='/login' element={<Login/>}/>
     <Route path='/signup' element={<Signup/>}/>
     <Route path='/add-expense' element={<AddExpense/>}/>
-    <Route path='/view-expense' element={<ExpenseSummary/>}/>
-    <Route path='/edit-expense' element={<EditExpense/>}/>
-    <Route path='/delete-expense' element={<DeleteExpense/>}/>
-    {/* <Route path='/view-expense-summary' element={<ViewExpenseSummary/>}/> */}
+    <Route path='/view-expense' element={<ExpenseCard mode="view"/>}/>
+    <Route path='/edit-expense' element={<ExpenseCard mode="edit"/>}/>
+    <Route path='/delete-expense' element={<ExpenseCard mode="delete"/>}/>
+    {/* <Route path='/view-expense-summary' element={<ViewExpenseCard/>}/> */}
 
 
 
@@ -40,6 +42,8 @@ const router=createBrowserRouter(
 )
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ContextProvider>
+      <RouterProvider router={router} />
+    </ContextProvider>
   </StrictMode>,
 )

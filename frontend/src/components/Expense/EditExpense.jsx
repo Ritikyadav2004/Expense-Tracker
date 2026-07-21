@@ -4,7 +4,7 @@ const EditExpense = () => {
   return (
     <div>
         
-<BackButton/>
+         <h1>Edit expense</h1>
     </div>
   )
 }

@@ -5,8 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import  './index.css'
 
 import App from './App'
-import ExpenseSummary from './components/ExpenseSummary';
-import ExpenseCard from './components/Expense/ExpenseCard';
+import ExpenseSummary from './components/ExpenseCard';
+import ExpenseOption from './components/Expense/ExpenseOption';
 import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -21,7 +21,7 @@ const router=createBrowserRouter(
      
     <Route path='/' element={<Home/>}/>
     <Route path='/dashboard' element={<ExpenseSummary />} />
-    <Route path='/expenses' element={<ExpenseCard />} />
+    <Route path='/expenses' element={<ExpenseOption />} />
     <Route path='/login' element={<Login/>}/>
     <Route path='/signup' element={<Signup/>}/>
     <Route path='/add-expense' element={<AddExpense/>}/>

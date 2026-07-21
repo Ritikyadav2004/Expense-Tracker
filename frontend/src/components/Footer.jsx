@@ -4,9 +4,9 @@ import Card from 'react-bootstrap/Card';
 function Footer() {
   return (
     <Card className="text-center">
-      <Card.Header>Featured</Card.Header>
+      
       <Card.Body>
-        <Card.Title>Trackify</Card.Title>
+        <Card.Header>Trackify</Card.Header>
         <Card.Text>
           Track Your Daily Expense Here
         </Card.Text>

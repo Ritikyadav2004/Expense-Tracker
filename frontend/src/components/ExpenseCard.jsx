@@ -1,8 +1,9 @@
 import Card from 'react-bootstrap/Card';
 import UserContext from '../context/UserContext';
 import ContextProvider from '../context/ContextProvider';
-import React, { useContext ,useState } from 'react';
+import React, { useContext ,useState  } from 'react';
 import FilterBar from './FilterBar';
+import { Navigate } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 function ExpenseCard({mode}) {
   
@@ -13,6 +14,7 @@ function ExpenseCard({mode}) {
   const [category, setCategory] = useState(''); // State to hold the selected category for filtering
   const [selectedCategory, setSelectedCategory] = useState(''); // State to hold the selected category for filtering
   const [showTotal,setShowTotal] = useState(false);
+  
 
   const handleEdit=(id)=>{
             
@@ -24,13 +26,14 @@ function ExpenseCard({mode}) {
           const handleDelete=(id)=>{
             console.log(`Delete expense with id: ${id}`);
             // Context state update 
-          const updatedExpenses = expenses.filter(exp => exp.id !== id);
-          setExpenses(updatedExpenses);
+         
           
           // LocalStorage update done
-          localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
           const confirmDelete = window.confirm("Are you sure you want to delete this expense?");
-           if (confirmDelete) {
+          if (confirmDelete) {
+            const updatedExpenses = expenses.filter(exp => exp.id !== id);
+            setExpenses(updatedExpenses);
+            localStorage.setItem("expenses", JSON.stringify(updatedExpenses));
          
           alert("Expense deleted successfully!");
         }
@@ -41,10 +44,10 @@ function ExpenseCard({mode}) {
 
 
 const handleFilterByCategory = (val) => {
-    if (val === 'All') {
+    if (val === '') {
     // incase of reset
     setFilteredExpenses(null);
-    setSelectedCategory('All');
+    setSelectedCategory('');
   } else if (selectedCategory === val) {
     //if same catagory is selected again thrn do noting
     setFilteredExpenses(null);
@@ -62,7 +65,29 @@ const handleFilterByCategory = (val) => {
 
 
   return (
+
     <div className="border text-slate-800  p-3 m-2 text-center">
+      {(mode==="view" ||  mode=== "dashboard") && ( 
+    <div className="flex justify-center space-x-4 mt-4 gap-1.5">
+       <Dropdown onSelect={(val) => handleFilterByCategory(val)}>
+      <Dropdown.Toggle variant="primary" id="dropdown-basic" className="bg-indigo-600 text-white py-2 px-4 rounded-md border-none"> {activeFilter ? `Category: ${selectedCategory}` : 'Filter by Category'}
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item eventKey="">Show All (Reset)</Dropdown.Item>
+        <Dropdown.Item eventKey="Food">Food</Dropdown.Item>
+        <Dropdown.Item eventKey="Travel">Travel</Dropdown.Item>
+        <Dropdown.Item eventKey="Shopping">Shopping</Dropdown.Item>
+        <Dropdown.Item eventKey="Entertainment">Entertainment</Dropdown.Item>
+        <Dropdown.Item eventKey="Health">Health</Dropdown.Item>
+        <Dropdown.Item eventKey="Bills">Bills</Dropdown.Item>
+        <Dropdown.Item eventKey="Other">Other</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+      <button onClick={()=>setShowTotal(!showTotal)} className="bg-indigo-600 text-white py-2 px-4  hover:bg-indigo-700">Show Amount per Category</button>
+      <button className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">View  Expense Graph</button>
+    </div>)}
+
+    {showTotal===true &&<Navigate to="/show-per-category" />}
     <div className="flex flex-wrap justify-center gap-4 p-4 w-full">
       {expenses.length===0 ? (
         <p className="text-center text-gray-500">No expenses found.</p>
@@ -71,7 +96,7 @@ const handleFilterByCategory = (val) => {
        
         
          <>
-         {mode==='view' || mode==='dashboard' ? <h1>This Much Amount you have Spent</h1> : null}
+         {mode==='view' || mode==='dashboard' ? <h1>This Much Amount you have {selectedCategory ? selectedCategory : "Spent"} </h1> : null}
           <div className="flex flex-wrap justify-center gap-4 p-4 w-full">
   {displayExpenses.map((expense) => (
     <Card
@@ -105,27 +130,7 @@ const handleFilterByCategory = (val) => {
       ) }
     </div>
 
-   {(mode==="view" ||  mode=== "dashboard") && ( 
-    <div className="flex justify-center space-x-4 mt-4 gap-1.5">
-       <Dropdown onSelect={(val) => handleFilterByCategory(val)}>
-      <Dropdown.Toggle variant="primary" id="dropdown-basic" className="bg-indigo-600 text-white py-2 px-4 rounded-md border-none"> {activeFilter ? `Category: ${selectedCategory}` : 'Filter by Category'}
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item eventKey="All">Show All (Reset)</Dropdown.Item>
-        <Dropdown.Item eventKey="Food">Food</Dropdown.Item>
-        <Dropdown.Item eventKey="Travel">Travel</Dropdown.Item>
-        <Dropdown.Item eventKey="Shopping">Shopping</Dropdown.Item>
-        <Dropdown.Item eventKey="Entertainment">Entertainment</Dropdown.Item>
-        <Dropdown.Item eventKey="Health">Health</Dropdown.Item>
-        <Dropdown.Item eventKey="Bills">Bills</Dropdown.Item>
-        <Dropdown.Item eventKey="Other">Other</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-      <button onClick={()=>setShowTotal(!showTotal)} className="bg-indigo-600 text-white py-2 px-4  hover:bg-indigo-700">Show Amount per Category</button>
-      <button className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">View  Expense Graph</button>
-    </div>)}
-
-    {showTotal===true && (<FilterBar expenses={expenses}/>)}
+   
     </div>
    
   );

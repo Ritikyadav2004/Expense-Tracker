@@ -14,6 +14,7 @@ import AddExpense from './components/Expense/AddExpense';
 
 
 import ContextProvider from './context/ContextProvider';
+import FilterBar from './components/FilterBar';
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router=createBrowserRouter(
     <Route path='/view-expense' element={<ExpenseCard mode="view"/>}/>
     <Route path='/edit-expense' element={<ExpenseCard mode="edit"/>}/>
     <Route path='/delete-expense' element={<ExpenseCard mode="delete"/>}/>
+    <Route path='/show-per-category' element={<FilterBar/>}/>
     {/* <Route path='/view-expense-summary' element={<ViewExpenseCard/>}/> */}
 
 

@@ -1,26 +1,24 @@
 import React from 'react'
 
-const FilterBar = ({data}) => {
+const FilterBar = ({foodAmount, travelAmount ,  entertainmentAmount , billsAmount , healthAmount , otherAmount , shoppingAmount}) => {
   return (
-    <div>
+    <div> 
 
-
-         <h1>filter by amount greater than:  or in category</h1>
-          <Card
-      key={data.id}
+               <Card
+     
       bg="primary"
       text="white"
       style={{ width: '10rem' }}
       className="mb-2 m-2 p-2 flex flex-col items-center text-center"
     > 
     
-      <Card.Header className="font-bold">{data.category}</Card.Header>
+      <Card.Header className="font-bold">Food</Card.Header>
       <Card.Body>
-        <Card.Title>{Number(data.amount).toFixed(2)} ₨</Card.Title>
-        <Card.Text>{data.date}</Card.Text>
+        <Card.Title>Total Expense {foodAmount} ₨</Card.Title>
+       
       </Card.Body>
-    
-    </Card>
+     
+    </Card>      
     </div>
   )
 }

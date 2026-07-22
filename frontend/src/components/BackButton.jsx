@@ -5,7 +5,7 @@ function BackButton()
     const navigate= useNavigate();
 
     return(
-        <Button variant="primary" onClick={()=>navigate(-1)}>Back</Button>
+        <Button  style={{borderRadius:'0px'}}variant="primary" onClick={()=>navigate(-1)}>Back</Button>
     )
 }
 

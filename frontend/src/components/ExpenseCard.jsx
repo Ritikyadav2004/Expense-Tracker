@@ -66,7 +66,7 @@ const handleFilterByCategory = (val) => {
 
   return (
 
-    <div className="border text-slate-800  p-3 m-2 text-center">
+    <div className="border text-slate-800  p-3 m-2 text-center w-full min-h-screen  bg-slate-200">
       {(mode==="view" ||  mode=== "dashboard") && ( 
     <div className="flex justify-center space-x-4 mt-4 gap-1.5">
        <Dropdown onSelect={(val) => handleFilterByCategory(val)}>
@@ -80,6 +80,7 @@ const handleFilterByCategory = (val) => {
         <Dropdown.Item eventKey="Entertainment">Entertainment</Dropdown.Item>
         <Dropdown.Item eventKey="Health">Health</Dropdown.Item>
         <Dropdown.Item eventKey="Bills">Bills</Dropdown.Item>
+        <Dropdown.Item eventKey="Education">Education</Dropdown.Item>
         <Dropdown.Item eventKey="Other">Other</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

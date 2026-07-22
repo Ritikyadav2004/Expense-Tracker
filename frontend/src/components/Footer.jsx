@@ -6,8 +6,8 @@ function Footer() {
     <Card className="text-center">
       
       <Card.Body>
-        <Card.Header>Trackify</Card.Header>
-        <Card.Text>
+        <Card.Header style={{fontFamily:'sans-serif' , fontWeight:'bold'}}>Trackify</Card.Header>
+        <Card.Text style={{fontFamily:'sans-serif' , fontWeight:'500'}}>
           Track Your Daily Expense Here
         </Card.Text>
         <Button onClick={() => window.open('https://github.com/Ritikyadav2004/Expense-Tracker/', '_blank')} variant="primary">

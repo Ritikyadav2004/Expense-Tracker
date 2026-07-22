@@ -21,7 +21,7 @@ const router=createBrowserRouter(
      
     <Route path='/' element={<Home/>}/>
     <Route path='/dashboard' element={<ExpenseCard  mode="dashboard"/>} />
-    <Route path='/expenses' element={<ExpenseOption />} />
+    {/* <Route path='/expenses' element={<ExpenseOption />} /> */}
     <Route path='/login' element={<Login/>}/>
     <Route path='/signup' element={<Signup/>}/>
     <Route path='/add-expense' element={<AddExpense/>}/>

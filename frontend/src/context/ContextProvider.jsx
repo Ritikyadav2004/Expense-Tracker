@@ -6,7 +6,9 @@ const ContextProvider = ({ children }) => {
   const [expenses, setExpenses] = useState([]);
   const [user, setUser] = useState(null); 
 
-  // Loading the data from backend using service layer
+  /**
+   * Loads expenses from the server using the service layer
+   */
   const fetchExpenses = async () => {
     if (!user || !user.id) return;
     try {

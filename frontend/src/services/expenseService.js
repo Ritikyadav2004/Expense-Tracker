@@ -2,9 +2,8 @@
 const BASE_URL = 'http://localhost:8000/api';
 
 /**
- * Fetches all expenses for a specific user from the backend
- * @param {string} userId - The unique ID of the user
- * @returns {Promise<Array>} List of expenses
+ * Fetch all expenses for a user
+ * @param {string} userId
  */
 export const getExpenses = async (userId) => {
   const response = await fetch(`${BASE_URL}/expenses?userId=${userId}`);
@@ -16,9 +15,8 @@ export const getExpenses = async (userId) => {
 };
 
 /**
- * Adds a new expense to the database
- * @param {Object} expenseData - The expense details (amount, category, date, userId)
- * @returns {Promise<Object>} The saved expense object
+ * Save a new expense
+ * @param {Object} expenseData
  */
 export const addExpense = async (expenseData) => {
   const response = await fetch(`${BASE_URL}/expenses`, {
@@ -34,9 +32,8 @@ export const addExpense = async (expenseData) => {
 };
 
 /**
- * Deletes a specific expense by ID
- * @param {string} id - Mongoose Object ID of the expense
- * @returns {Promise<Object>} Success message
+ * Delete expense by id
+ * @param {string} id
  */
 export const deleteExpense = async (id) => {
   const response = await fetch(`${BASE_URL}/expenses/${id}`, {
@@ -50,9 +47,8 @@ export const deleteExpense = async (id) => {
 };
 
 /**
- * Authenticates user credentials for Login
- * @param {Object} credentials - Email and Password
- * @returns {Promise<Object>} Logged in user details
+ * Authenticate credentials for user login
+ * @param {Object} credentials
  */
 export const loginUser = async (credentials) => {
   const response = await fetch(`${BASE_URL}/login`, {
@@ -68,9 +64,8 @@ export const loginUser = async (credentials) => {
 };
 
 /**
- * Registers a new user account in the database
- * @param {Object} userData - User registration details (name, email, password)
- * @returns {Promise<Object>} Success message
+ * Register a new user account
+ * @param {Object} userData
  */
 export const registerUser = async (userData) => {
   const response = await fetch(`${BASE_URL}/register`, {

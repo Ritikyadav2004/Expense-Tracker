@@ -5,16 +5,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import  './index.css'
 
 import App from './App'
-import ExpenseCard from './components/ExpenseCard';
-import ExpenseOption from './components/Expense/ExpenseOption';
-import Home from './components/Home';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import AddExpense from './components/Expense/AddExpense';
+import ExpenseCard from './pages/ExpenseCard';
+import ExpenseOption from './components/ExpenseOption';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import AddExpense from './pages/AddExpense';
 
 
 import ContextProvider from './context/ContextProvider';
-import FilterBar from './components/FilterBar';
+import FilterBar from './pages/FilterBar';
 
 const router=createBrowserRouter(
   createRoutesFromElements(

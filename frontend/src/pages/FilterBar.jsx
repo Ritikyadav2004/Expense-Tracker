@@ -2,7 +2,7 @@ import React from 'react'
 import Card from 'react-bootstrap/Card';
 import UserContext from '../context/UserContext';
 import { useState  , useContext} from 'react';
-import BackButton from './BackButton';
+import BackButton from '../components/BackButton';
 const FilterBar = () => {
   // creating varible to store amount/category
   const { expenses } = useContext(UserContext)

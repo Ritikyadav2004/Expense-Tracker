@@ -11,8 +11,8 @@ const Signup = () => {
   const navigate = useNavigate(); // After Signed Up Redirected towards login
 
   /**
-   * Handles user registration form submission to the backend.
-   * @param {Object} e - The form submission event object
+   * Handle user signup form submit
+   * @param {Object} e
    */
   const handleSubmit = async (e) => {
     e.preventDefault(); // to prevent browser refresh

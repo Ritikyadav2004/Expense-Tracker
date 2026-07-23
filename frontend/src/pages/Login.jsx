@@ -11,8 +11,8 @@ const Login = () => {
   const { setUser } = useContext(UserContext) || { setUser: () => {} };  // extracting out setUser
   
   /**
-   * Handles submission of the login credentials to authenticate the user.
-   * @param {Object} e - The form submission event
+   * Handle user login form submit
+   * @param {Object} e
    */
   const  handleSubmit = async (e) => {
     e.preventDefault(); // tp prevent from browser refreash

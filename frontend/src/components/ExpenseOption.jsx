@@ -2,8 +2,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 
 function BasicExample() {
-
-  
   return (
     <Dropdown>
       <Dropdown.Toggle variant="success" 
@@ -13,7 +11,7 @@ function BasicExample() {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item as={Link}  to="/add-expense">Add Expense</Dropdown.Item>
+        <Dropdown.Item as={Link} to="/add-expense">Add Expense</Dropdown.Item>
         <Dropdown.Item as={Link} to="/view-expense">View Expense</Dropdown.Item>
         <Dropdown.Item as={Link} to="/edit-expense">Edit Expense</Dropdown.Item>
         <Dropdown.Item as={Link} to="/delete-expense">Delete Expense</Dropdown.Item>

@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import BackButton from '../BackButton';
-import ExpenseSummary from '../ExpenseCard';
-import UserContext from '../../context/UserContext';
-import { addExpense } from '../../services/expenseService';
+import BackButton from '../components/BackButton';
+import UserContext from '../context/UserContext';
+import { addExpense } from '../services/expenseService';
 
 
 const AddExpense = () => {
@@ -14,8 +13,8 @@ const AddExpense = () => {
   const { user, fetchExpenses } = useContext(UserContext) || { user: null, fetchExpenses: () => {} };
   
   /**
-   * Handles submission of the expense form data to the backend server.
-   * @param {Object} e - Form submit event object
+   * Handle form submission to add expense
+   * @param {Object} e
    */
   const handleSubmit = async (e) => {
     e.preventDefault();

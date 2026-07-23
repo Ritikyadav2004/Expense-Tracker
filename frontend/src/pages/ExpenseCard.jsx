@@ -15,16 +15,16 @@ function ExpenseCard({ mode }) {
   const [showTotal, setShowTotal] = useState(false);
 
   /**
-   * Logs a message for editing an expense item
-   * @param {string} id - The ID of the expense item to edit
+   * Print log for editing expense
+   * @param {string} id
    */
   const handleEdit = (id) => {
     console.log(`Edit expense with id: ${id}`);
   };
 
   /**
-   * Deletes an expense item by ID and updates the display list
-   * @param {string} id - The Mongoose ObjectId of the expense to delete
+   * Delete expense by ID and reload list
+   * @param {string} id
    */
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this expense?");
@@ -42,8 +42,8 @@ function ExpenseCard({ mode }) {
   };
 
   /**
-   * Filters the expenses list based on selected category name
-   * @param {string} val - The category name
+   * Filter expenses list by category
+   * @param {string} val
    */
   const handleFilterByCategory = (val) => {
     if (val === "" || val === "All") {

@@ -6,7 +6,7 @@ import BackButton from './BackButton';
 const FilterBar = () => {
   // creating varible to store amount/category
   const { expenses } = useContext(UserContext)
-     
+      // For local calculations
      let foodAmount=0;
      let travelAmount=0;
      let shoppingAmount=0;
@@ -15,6 +15,8 @@ const FilterBar = () => {
      let billsAmount=0;
      let otherAmount=0;
      let educationAmount=0;
+
+     // calculating results
   expenses.forEach(expense=>{
     
        if(expense.category==="Food")

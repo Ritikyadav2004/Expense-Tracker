@@ -3,38 +3,43 @@ import { Link } from 'react-router-dom';
 import BackButton from '../BackButton';
 import ExpenseSummary from '../ExpenseCard';
 import UserContext from '../../context/UserContext';
+import { addExpense } from '../../services/expenseService';
+
 
 const AddExpense = () => {
   const [category, setCategory] =useState('');
   const [amount , setAmount]=useState('');
   const [date , setDate]=useState('');
   
-  const { setExpenses } = useContext(UserContext) || { setExpenses: () => {} };
+  const { user, fetchExpenses } = useContext(UserContext) || { user: null, fetchExpenses: () => {} };
   
-  const handleSubmit=(e)=>{
+  /**
+   * Handles submission of the expense form data to the backend server.
+   * @param {Object} e - Form submit event object
+   */
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const expense = {
-      id: Date.now(),// this done to provide unique id to each expense
+    if (!user) {
+      alert("Please login first to add expenses!");
+      return;
+    }
+
+    const expenseData = {
       category,
       amount,
-      date
+      date,
+      userId: user.id
     };
 
-    // here is how we are saving the data in local storageh
-    const existingExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
-    existingExpenses.push(expense);
-    localStorage.setItem("expenses", JSON.stringify(existingExpenses));
-
-    // Update context state for real-time updates
-    setExpenses(existingExpenses);
-
-    alert("Expense saved!");
-      console.log("Saved expense:", expense);
-  }
+    
+      await addExpense(expenseData);
+      alert("Expense saved successfully!");
+      fetchExpenses(); // Reload list from backend
+     
+  };
   
 
-  // created object to store the expese data 
   
 
      

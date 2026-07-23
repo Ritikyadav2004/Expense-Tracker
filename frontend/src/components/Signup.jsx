@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerUser } from '../services/expenseService';
 
 const Signup = () => {
   //  To track the Inputs
@@ -7,12 +8,23 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  //submit handler
-  const handleSubmit = (e) => {
-    e.preventDefault(); // b tp prevent from browser refreash
-    console.log("Signup Request Sent:", { username, email, password });
-    alert(`Account created successfully for: ${username}`);
-    
+  const navigate = useNavigate(); // After Signed Up Redirected towards login
+
+  /**
+   * Handles user registration form submission to the backend.
+   * @param {Object} e - The form submission event object
+   */
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // to prevent browser refresh
+
+    try {
+      await registerUser({ name: username, email, password });
+      alert("Account Created successfully!");
+      navigate('/login');
+    } catch (error) {
+      console.error("Registration Error:", error);
+      alert(error.message || "Registration failed!");
+    }
   };
 
   return (

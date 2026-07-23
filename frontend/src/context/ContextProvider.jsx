@@ -1,21 +1,44 @@
-import React from 'react'
-import Context from './UserContext'
-const ContextProvider = ({children}) => {
-  const [expenses, setExpenses] = React.useState([]);
+import React, { useState, useEffect } from 'react';
+import Context from './UserContext';
+import { getExpenses } from '../services/expenseService';
 
-  // now we will fetch the data from local storage and se it in expense
-  React.useEffect(()=>{
-    const storedExpenses= JSON.parse(localStorage.getItem('expenses'));
-    if(storedExpenses){
-      setExpenses(storedExpenses);
+const ContextProvider = ({ children }) => {
+  const [expenses, setExpenses] = useState([]);
+  const [user, setUser] = useState(null); 
+
+  // Loading the data from backend using service layer
+  const fetchExpenses = async () => {
+    if (!user || !user.id) return;
+    try {
+      const data = await getExpenses(user.id);
+      setExpenses(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  },[])
-  
+  };
+
+  // App load checking user details in local storage
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('user');
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  // Sync expenses whenever user state changes
+  useEffect(() => {
+    if (user) {
+      fetchExpenses();
+    } else {
+      setExpenses([]);
+    }
+  }, [user]);
+
   return (
-    <Context.Provider value={{ expenses, setExpenses }}>
+    <Context.Provider value={{ expenses, setExpenses, fetchExpenses, user, setUser }}>
       {children}
     </Context.Provider>
-  )
-}
+  );
+};
 
 export default ContextProvider

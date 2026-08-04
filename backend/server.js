@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose=require('mongoose')
 const cors = require('cors');
@@ -6,12 +7,14 @@ const Expense = require('./models/Expense'); // Expense model for fetching and u
 
 const app=express();
 
-const port=8000;
+const port=process.env.PORT || 8000;
 
 app.use(cors()); // Resolve Cross origin issue 
 app.use(express.json()); // backend can read incomeing json data 
 
-mongoose.connect('mongodb://localhost:27017/expenseTracker')
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/expenseTracker';
+
+mongoose.connect(mongoURI)
   .then(() => console.log("MongoDB Connected Successfully!"))
   .catch((err) => console.log("DB Connection Error: ", err));
 app.get('/',(req,res)=>{

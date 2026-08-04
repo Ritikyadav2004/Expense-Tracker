@@ -12,7 +12,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AddExpense from './pages/AddExpense';
 
-
+ 
 import ContextProvider from './context/ContextProvider';
 import FilterBar from './pages/FilterBar';
 

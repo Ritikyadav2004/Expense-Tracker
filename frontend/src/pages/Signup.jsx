@@ -17,6 +17,11 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // to prevent browser refresh
 
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long!");
+      return;
+    }
+
     try {
       await registerUser({ name: username, email, password });
       alert("Account Created successfully!");

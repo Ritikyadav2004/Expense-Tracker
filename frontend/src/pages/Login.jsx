@@ -20,7 +20,7 @@ const Login = () => {
     try {
       const data = await loginUser({ email, password });
       alert("Logged in successfully!");
-      console.log("Logged In User Details:", data.user);
+      // console.log("Logged In User Details:", data.user); 
 
       // Save user details to persist session on page reload
       localStorage.setItem('user', JSON.stringify(data.user)); // Local storage me save kiya

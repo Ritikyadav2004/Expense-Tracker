@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Loading from '../components/Loading';
 import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import { loginUser } from '../services/expenseService';
@@ -7,6 +8,7 @@ const Login = () => {
   //  To track the Inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // to navigate the user After Logged in 
   const { setUser } = useContext(UserContext) || { setUser: () => {} };  // extracting out setUser
   
@@ -16,7 +18,7 @@ const Login = () => {
    */
   const  handleSubmit = async (e) => {
     e.preventDefault(); // tp prevent from browser refreash
-    
+    setLoading(true);
     try {
       const data = await loginUser({ email, password });
       alert("Logged in successfully!");
@@ -29,13 +31,15 @@ const Login = () => {
     } catch (error) {
       console.error("Login Error:", error);
       alert(error.message || "Something went wrong during login!");
+    } finally {
+      setLoading(false);
     }
   
     }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-      
+    <div className="relative container d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+      <Loading visible={loading} message="Logging in..." />
       <div className="card p-4 shadow-sm" style={{ width: '22rem', borderRadius: '15px' }}>
         <h2 className="text-center mb-4 text-slate-800 font-bold">Login</h2>
         

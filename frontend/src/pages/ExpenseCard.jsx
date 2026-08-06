@@ -5,6 +5,7 @@ import React, { useContext, useState } from "react";
 import FilterBar from "./FilterBar";
 import { Navigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
+import Loading from "../components/Loading";
 import { deleteExpense } from "../services/expenseService";
 
 function ExpenseCard({ mode }) {
@@ -13,6 +14,7 @@ function ExpenseCard({ mode }) {
   const [activeFilter, setActiveFilter] = useState(false); // to track whether it is active or not
   const [selectedCategory, setSelectedCategory] = useState(""); // State to hold the selected category for filtering
   const [showTotal, setShowTotal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   /**
    * Print log for editing expense
@@ -30,6 +32,7 @@ function ExpenseCard({ mode }) {
     const confirmDelete = window.confirm("Are you sure you want to delete this expense?");
     if (!confirmDelete) return;
 
+    setLoading(true);
     try {
       await deleteExpense(id);
       alert("Expense deleted successfully!");
@@ -37,8 +40,9 @@ function ExpenseCard({ mode }) {
     } catch (error) {
       console.error("Connection Error:", error);
       alert(error.message || "Failed to delete expense");
+    } finally {
+      setLoading(false);
     }
-  
   };
 
   /**
@@ -67,7 +71,8 @@ function ExpenseCard({ mode }) {
     filteredExpenses !== null ? filteredExpenses : expenses;
 
   return (
-    <div className="border text-slate-800  p-3 m-2 text-center w-full min-h-screen  bg-slate-200">
+    <div className="relative border text-slate-800  p-3 m-2 text-center w-full min-h-screen  bg-slate-200">
+      <Loading visible={loading} message="Updating expenses..." />
       {(mode === "view" || mode === "dashboard") && (
         <div className="flex justify-center space-x-4 mt-4 gap-1.5">
           <Dropdown onSelect={(val) => handleFilterByCategory(val)}>

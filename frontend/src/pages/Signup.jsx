@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Loading from '../components/Loading';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/expenseService';
 
@@ -7,6 +8,7 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate(); // After Signed Up Redirected towards login
 
@@ -22,6 +24,7 @@ const Signup = () => {
       return;
     }
 
+    setLoading(true);
     try {
       await registerUser({ name: username, email, password });
       alert("Account Created successfully!");
@@ -29,11 +32,14 @@ const Signup = () => {
     } catch (error) {
       console.error("Registration Error:", error);
       alert(error.message || "Registration failed!");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+    <div className="relative container d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+      <Loading visible={loading} message="Creating account..." />
       {/* Bootstrap Card Wrapper */}
       <div className="card p-4 shadow-sm" style={{ width: '22rem', borderRadius: '15px' }}>
         <h2 className="text-center mb-4 text-slate-800 font-bold">Sign Up</h2>

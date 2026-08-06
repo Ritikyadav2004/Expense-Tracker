@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Loading from '../components/Loading';
 import { Link } from 'react-router-dom';
 import BackButton from '../components/BackButton';
 import UserContext from '../context/UserContext';
@@ -9,6 +10,7 @@ const AddExpense = () => {
   const [category, setCategory] =useState('');
   const [amount , setAmount]=useState('');
   const [date , setDate]=useState('');
+  const [loading, setLoading] = useState(false);
   
   const { user, fetchExpenses } = useContext(UserContext) || { user: null, fetchExpenses: () => {} };
   
@@ -31,11 +33,17 @@ const AddExpense = () => {
       userId: user.id
     };
 
-    
+    setLoading(true);
+    try {
       await addExpense(expenseData);
       alert("Expense saved successfully!");
       fetchExpenses(); // Reload list from backend
-     
+    } catch (error) {
+      console.error("Save Expense Error:", error);
+      alert(error.message || "Failed to save expense");
+    } finally {
+      setLoading(false);
+    }
   };
   
 
@@ -45,7 +53,8 @@ const AddExpense = () => {
   
 
   return (
-    <div className='w-screen h-screen  bg-slate-200'>
+    <div className='w-screen min-h-screen bg-slate-200'>
+      <Loading visible={loading} message="Saving expense..." />
       <BackButton/>
       
 

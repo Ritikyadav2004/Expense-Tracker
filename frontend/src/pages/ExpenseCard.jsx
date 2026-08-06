@@ -15,6 +15,8 @@ function ExpenseCard({ mode }) {
   const [selectedCategory, setSelectedCategory] = useState(""); // State to hold the selected category for filtering
   const [showTotal, setShowTotal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [statusType, setStatusType] = useState('');
 
   /**
    * Print log for editing expense
@@ -32,14 +34,18 @@ function ExpenseCard({ mode }) {
     const confirmDelete = window.confirm("Are you sure you want to delete this expense?");
     if (!confirmDelete) return;
 
+    setStatusMessage('');
+    setStatusType('');
     setLoading(true);
     try {
       await deleteExpense(id);
-      alert("Expense deleted successfully!");
+      setStatusMessage("Expense deleted successfully!");
+      setStatusType('success');
       fetchExpenses(); // Fetch fresh data from backend
     } catch (error) {
       console.error("Connection Error:", error);
-      alert(error.message || "Failed to delete expense");
+      setStatusMessage(error.message || "Failed to delete expense");
+      setStatusType('error');
     } finally {
       setLoading(false);
     }
@@ -73,6 +79,11 @@ function ExpenseCard({ mode }) {
   return (
     <div className="relative border text-slate-800  p-3 m-2 text-center w-full min-h-screen  bg-slate-200">
       <Loading visible={loading} message="Updating expenses..." />
+      {statusMessage && (
+        <div className={`mx-auto mb-4 max-w-2xl rounded-lg px-4 py-3 text-sm ${statusType === 'error' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
+          {statusMessage}
+        </div>
+      )}
       {(mode === "view" || mode === "dashboard") && (
         <div className="flex justify-center space-x-4 mt-4 gap-1.5">
           <Dropdown onSelect={(val) => handleFilterByCategory(val)}>

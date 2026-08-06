@@ -11,6 +11,8 @@ const AddExpense = () => {
   const [amount , setAmount]=useState('');
   const [date , setDate]=useState('');
   const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [statusType, setStatusType] = useState('');
   
   const { user, fetchExpenses } = useContext(UserContext) || { user: null, fetchExpenses: () => {} };
   
@@ -22,7 +24,8 @@ const AddExpense = () => {
     e.preventDefault();
 
     if (!user) {
-      alert("Please login first to add expenses!");
+      setStatusMessage("Please login first to add expenses!");
+      setStatusType('error');
       return;
     }
 
@@ -33,14 +36,18 @@ const AddExpense = () => {
       userId: user.id
     };
 
+    setStatusMessage('');
+    setStatusType('');
     setLoading(true);
     try {
       await addExpense(expenseData);
-      alert("Expense saved successfully!");
+      setStatusMessage("Expense saved successfully!");
+      setStatusType('success');
       fetchExpenses(); // Reload list from backend
     } catch (error) {
       console.error("Save Expense Error:", error);
-      alert(error.message || "Failed to save expense");
+      setStatusMessage(error.message || "Failed to save expense");
+      setStatusType('error');
     } finally {
       setLoading(false);
     }
@@ -56,6 +63,11 @@ const AddExpense = () => {
     <div className='w-screen min-h-screen bg-slate-200'>
       <Loading visible={loading} message="Saving expense..." />
       <BackButton/>
+      {statusMessage && (
+        <div className={`mx-auto mb-4 max-w-md rounded-lg px-4 py-3 text-sm ${statusType === 'error' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
+          {statusMessage}
+        </div>
+      )}
       
 
       

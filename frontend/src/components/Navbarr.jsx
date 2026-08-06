@@ -10,7 +10,6 @@ function Navbarr() {
   const handleLogout = () => {
     localStorage.removeItem('user'); // Local storage se user data delete kiya
     setUser(null); // Context state ko null kiya taaki login state clear ho jaye
-    alert("Logged out successfully!");
   };
   
   return (

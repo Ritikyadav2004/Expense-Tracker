@@ -9,6 +9,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [statusType, setStatusType] = useState('');
   const navigate = useNavigate(); // to navigate the user After Logged in 
   const { setUser } = useContext(UserContext) || { setUser: () => {} };  // extracting out setUser
   
@@ -18,19 +20,19 @@ const Login = () => {
    */
   const  handleSubmit = async (e) => {
     e.preventDefault(); // tp prevent from browser refreash
+    setStatusMessage('');
+    setStatusType('');
     setLoading(true);
     try {
       const data = await loginUser({ email, password });
-      alert("Logged in successfully!");
-      // console.log("Logged In User Details:", data.user); 
-
       // Save user details to persist session on page reload
       localStorage.setItem('user', JSON.stringify(data.user)); // Local storage me save kiya
       setUser(data.user); // Update global UserContext state
       navigate('/dashboard'); // 
     } catch (error) {
       console.error("Login Error:", error);
-      alert(error.message || "Something went wrong during login!");
+      setStatusMessage(error.message || "Something went wrong during login!");
+      setStatusType('error');
     } finally {
       setLoading(false);
     }
@@ -42,7 +44,11 @@ const Login = () => {
       <Loading visible={loading} message="Logging in..." />
       <div className="card p-4 shadow-sm" style={{ width: '22rem', borderRadius: '15px' }}>
         <h2 className="text-center mb-4 text-slate-800 font-bold">Login</h2>
-        
+        {statusMessage && (
+          <div className={`mb-4 rounded-lg px-4 py-3 text-sm ${statusType === 'error' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
+            {statusMessage}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           {/* email input field */}
           <div className="mb-3">

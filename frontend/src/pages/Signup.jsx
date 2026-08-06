@@ -9,6 +9,8 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [statusType, setStatusType] = useState('');
 
   const navigate = useNavigate(); // After Signed Up Redirected towards login
 
@@ -20,18 +22,21 @@ const Signup = () => {
     e.preventDefault(); // to prevent browser refresh
 
     if (password.length < 6) {
-      alert("Password must be at least 6 characters long!");
+      setStatusMessage("Password must be at least 6 characters long!");
+      setStatusType('error');
       return;
     }
 
+    setStatusMessage('');
+    setStatusType('');
     setLoading(true);
     try {
       await registerUser({ name: username, email, password });
-      alert("Account Created successfully!");
       navigate('/login');
     } catch (error) {
       console.error("Registration Error:", error);
-      alert(error.message || "Registration failed!");
+      setStatusMessage(error.message || "Registration failed!");
+      setStatusType('error');
     } finally {
       setLoading(false);
     }
@@ -43,7 +48,11 @@ const Signup = () => {
       {/* Bootstrap Card Wrapper */}
       <div className="card p-4 shadow-sm" style={{ width: '22rem', borderRadius: '15px' }}>
         <h2 className="text-center mb-4 text-slate-800 font-bold">Sign Up</h2>
-        
+        {statusMessage && (
+          <div className={`mb-4 rounded-lg px-4 py-3 text-sm ${statusType === 'error' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
+            {statusMessage}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           {/* full Name field */}
           <div className="mb-3">

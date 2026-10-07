@@ -11,7 +11,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AddExpense from './pages/AddExpense';
-
+import EditExpense from './pages/EditExpense';
  
 import ContextProvider from './context/ContextProvider';
 import FilterBar from './pages/FilterBar';
@@ -27,7 +27,8 @@ const router=createBrowserRouter(
     <Route path='/signup' element={<Signup/>}/>
     <Route path='/add-expense' element={<AddExpense/>}/>
     <Route path='/view-expense' element={<ExpenseCard mode="view"/>}/>
-    <Route path='/edit-expense' element={<ExpenseCard mode="edit"/>}/>
+    <Route path='/edit-expense' element={<EditExpense/>}/>
+    <Route path='/edit-expense/:id' element={<EditExpense/>}/>
     <Route path='/delete-expense' element={<ExpenseCard mode="delete"/>}/>
     <Route path='/show-per-category' element={<FilterBar/>}/>
     {/* <Route path='/view-expense-summary' element={<ViewExpenseCard/>}/> */}

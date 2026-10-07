@@ -101,6 +101,28 @@ app.post('/api/expenses', async (req, res) => {
 });
 
 /**
+ * @route PUT /api/expenses/:id
+ * @desc Updates an existing expense item by its unique ID
+ */
+app.put('/api/expenses/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { category, amount, date } = req.body;
+    const updatedExpense = await Expense.findByIdAndUpdate(
+      id,
+      { category, amount, date },
+      { new: true, runValidators: true }
+    );
+    if (!updatedExpense) {
+      return res.status(404).json({ error: "Expense not found!" });
+    }
+    res.status(200).json(updatedExpense);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update expense!" });
+  }
+});
+
+/**
  * @route DELETE /api/expenses/:id
  * @desc Deletes an expense item by its unique ID
  */

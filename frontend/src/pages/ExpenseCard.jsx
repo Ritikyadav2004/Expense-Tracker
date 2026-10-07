@@ -3,7 +3,7 @@ import UserContext from "../context/UserContext";
 import { Navigate, Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import Loading from "../components/Loading";
-import { deleteExpense } from "../services/expenseService";
+import { deleteExpense, updateExpense } from "../services/expenseService";
 
 function ExpenseCard({ mode }) {
   const { expenses, setExpenses, fetchExpenses, user } = useContext(UserContext) || { expenses: [], setExpenses: () => {}, fetchExpenses: () => {}, user: null };
@@ -15,14 +15,56 @@ function ExpenseCard({ mode }) {
   const [statusMessage, setStatusMessage] = useState('');
   const [statusType, setStatusType] = useState('');
 
+  // State for editing an expense
+  const [editingExpense, setEditingExpense] = useState(null);
+  const [editCategory, setEditCategory] = useState('');
+  const [editAmount, setEditAmount] = useState('');
+  const [editDate, setEditDate] = useState('');
+
   /**
-   * Print log for editing expense
-   * @param {string} id
+   * Initiate editing mode for an expense
+   * @param {Object} expense
    */
-  const handleEdit = (id) => {
-    console.log(`Edit expense with id: ${id}`);
-    setStatusMessage(`Editing mode active for item: ${id}`);
-    setStatusType('success');
+  const handleStartEdit = (expense) => {
+    setEditingExpense(expense);
+    setEditCategory(expense.category);
+    setEditAmount(expense.amount);
+    try {
+      const parsedDate = new Date(expense.date).toISOString().split('T')[0];
+      setEditDate(parsedDate);
+    } catch {
+      setEditDate(new Date().toISOString().split('T')[0]);
+    }
+  };
+
+  /**
+   * Save updated expense to backend
+   * @param {Object} e
+   */
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+    if (!editingExpense) return;
+
+    setStatusMessage('');
+    setStatusType('');
+    setLoading(true);
+    try {
+      await updateExpense(editingExpense._id, {
+        category: editCategory,
+        amount: Number(editAmount),
+        date: editDate
+      });
+      setStatusMessage("Expense item updated successfully!");
+      setStatusType('success');
+      setEditingExpense(null);
+      fetchExpenses();
+    } catch (error) {
+      console.error("Update Error:", error);
+      setStatusMessage(error.message || "Failed to update expense");
+      setStatusType('error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   /**
@@ -272,7 +314,7 @@ function ExpenseCard({ mode }) {
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-2 mt-2">
                     {mode === "edit" && (
                       <button
-                        onClick={() => handleEdit(expense._id)}
+                        onClick={() => handleStartEdit(expense)}
                         className="btn-pill btn-pill-outline text-xs px-3 py-1.5 hover:bg-slate-100 transition"
                       >
                         Edit
@@ -294,6 +336,112 @@ function ExpenseCard({ mode }) {
         )}
 
       </div>
+
+      {/* Edit Expense Modal Dialog */}
+      {editingExpense && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 backdrop-blur-sm p-4 animate-fade-rise">
+          <div className="bg-white border border-slate-200/90 rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
+            
+            <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+              <div>
+                <span className="text-xs uppercase tracking-widest text-slate-500 font-mono">Ledger Adjustment</span>
+                <h3 
+                  className="text-2xl font-normal text-slate-900 mt-1"
+                  style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                >
+                  Edit Expense Record
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingExpense(null)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition text-sm"
+                aria-label="Close dialog"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEdit} className="space-y-5">
+              
+              {/* Category */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5 font-sans">
+                  Category
+                </label>
+                <select
+                  value={editCategory}
+                  onChange={(e) => setEditCategory(e.target.value)}
+                  required
+                  className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white transition"
+                >
+                  <option value="Food">Food</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Health">Health</option>
+                  <option value="Education">Education</option>
+                  <option value="Bills">Bills</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Amount */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5 font-sans">
+                  Amount (₹)
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-mono text-sm">₹</span>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={editAmount}
+                    onChange={(e) => setEditAmount(e.target.value)}
+                    required
+                    className="w-full bg-slate-50/50 border border-slate-200 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white transition"
+                  />
+                </div>
+              </div>
+
+              {/* Date */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5 font-sans">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  value={editDate}
+                  onChange={(e) => setEditDate(e.target.value)}
+                  required
+                  className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white transition"
+                />
+              </div>
+
+              {/* Modal Actions */}
+              <div className="pt-3 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingExpense(null)}
+                  className="btn-pill btn-pill-outline text-xs px-4 py-2 font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-pill btn-pill-primary text-xs px-5 py-2 font-medium"
+                  style={{ backgroundColor: '#000000', color: '#ffffff' }}
+                >
+                  Save Changes
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }

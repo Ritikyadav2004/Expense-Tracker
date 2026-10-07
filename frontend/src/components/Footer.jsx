@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from './Logo';
 
 function Footer() {
   return (
@@ -11,13 +12,7 @@ function Footer() {
           
           {/* Brand & Manifesto */}
           <div className="md:col-span-6 space-y-4">
-            <Link 
-              to="/" 
-              className="text-3xl font-normal font-editorial text-slate-900 tracking-tight no-underline hover:opacity-85 transition-opacity inline-block"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
-            >
-              Trackify<sup className="text-xs font-sans ml-0.5 tracking-normal">®</sup>
-            </Link>
+            <Logo size="lg" subtext={true} />
             <p className="text-sm text-slate-600 font-body max-w-md leading-relaxed">
               Track Your Daily Expense Here. Precision budgeting, portfolio visibility, and intentional wealth architecture.
             </p>
@@ -42,6 +37,11 @@ function Footer() {
               <li>
                 <Link to="/add-expense" className="hover:text-black transition-colors no-underline">
                   Record Expenditure
+                </Link>
+              </li>
+              <li>
+                <Link to="/edit-expense" className="hover:text-black transition-colors no-underline">
+                  Modify Expenses
                 </Link>
               </li>
               <li>

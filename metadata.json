@@ -1,0 +1,8 @@
+{
+  "name": "Expense Tracker",
+  "description": "Personal finance and expense tracking application with category insights, budgeting, and authentication.",
+  "requestFramePermissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

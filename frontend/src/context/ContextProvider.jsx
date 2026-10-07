@@ -21,9 +21,13 @@ const ContextProvider = ({ children }) => {
 
   // App load checking user details in local storage
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('user');
-    if (loggedInUser) {
-      setUser(JSON.parse(loggedInUser));
+    try {
+      const loggedInUser = typeof window !== 'undefined' && window.localStorage ? localStorage.getItem('user') : null;
+      if (loggedInUser) {
+        setUser(JSON.parse(loggedInUser));
+      }
+    } catch (e) {
+      console.warn("Storage access not available:", e);
     }
   }, []);
 

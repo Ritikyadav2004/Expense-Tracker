@@ -1,1 +1,140 @@
 @import "tailwindcss";
+
+:root {
+  --color-primary-text: #0f172a;
+  --color-muted-text: hsl(215, 25%, 32%);
+  --color-cta-bg: #000000;
+  --color-cta-text: #ffffff;
+  --color-fallback-bg: hsl(201, 100%, 13%);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #0f172a;
+  background-color: #fafafa;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.font-editorial {
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+.font-body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Editorial Hero H1 requirement: letter-spacing MUST be -2.46px */
+.editorial-h1 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -2.46px;
+  font-size: 48px;
+}
+
+@media (min-width: 768px) {
+  .editorial-h1 {
+    font-size: 80px;
+    letter-spacing: -2.46px;
+    line-height: 0.95;
+  }
+}
+
+.editorial-h1 em {
+  font-style: italic;
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+/* Subtle fade-rise animation */
+@keyframes fadeRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anim-fade-rise {
+  animation: fadeRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.anim-delay-0 {
+  animation-delay: 0s;
+}
+
+.anim-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.anim-delay-400 {
+  animation-delay: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-rise {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Pill Action Button System */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 250ms ease-in-out, background-color 200ms ease, opacity 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-pill:hover {
+  transform: scale(1.03);
+}
+
+.btn-pill-primary {
+  background-color: #000000;
+  color: #ffffff !important;
+}
+
+.btn-pill-primary:hover {
+  background-color: #171717;
+}
+
+.btn-pill-small {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-pill-hero {
+  padding: 20px 56px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn-pill-outline {
+  background-color: transparent;
+  color: #0f172a !important;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+}
+
+.btn-pill-outline:hover {
+  background-color: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.4);
+}

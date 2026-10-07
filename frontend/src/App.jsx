@@ -1,22 +1,18 @@
-import React from 'react'
-import { Outlet } from 'react-router'
-import Navbarr from './components/Navbarr'  
-import Footer from './components/Footer'
-import Carousel from 'react-bootstrap/Carousel';
-
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Navbarr from './components/Navbarr';
+import Footer from './components/Footer';
 
 const App = () => {
   return (
+    <div className="min-h-screen flex flex-col justify-between bg-[#fafafa] text-slate-900 font-body antialiased">
+      <Navbarr />
+      <main className="flex-grow w-full">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-<>   
-    
-     <Navbarr/>
-      <Outlet/>
-     <Footer/>
-     
-
-</>
-  )
-}
-
-export default App
+export default App;

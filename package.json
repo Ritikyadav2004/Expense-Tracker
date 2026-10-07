@@ -1,0 +1,17 @@
+{
+  "name": "expense-tracker",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=frontend && node -e \"const fs=require('fs'); if(fs.existsSync('frontend/dist')){fs.cpSync('frontend/dist', 'dist', {recursive: true});}\"",
+    "start": "npm run dev --workspace=frontend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "start:backend": "npm run start --workspace=backend"
+  }
+}

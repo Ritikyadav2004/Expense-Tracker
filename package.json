@@ -2,34 +2,16 @@
   "name": "expense-tracker",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "dev": "tsx server.ts",
-    "build": "vite build",
-    "start": "node server.ts"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.0.0",
-    "bootstrap": "^5.3.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "lucide-react": "^0.475.0",
-    "mongoose": "^8.9.0",
-    "react": "^19.0.0",
-    "react-bootstrap": "^2.10.9",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.5",
-    "tailwindcss": "^4.0.0"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.10.10",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@vitejs/plugin-react": "^4.3.4",
-    "tsx": "^4.19.2",
-    "vite": "^6.0.7"
+    "dev": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=frontend",
+    "start": "npm run dev --workspace=frontend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "start:backend": "npm run start --workspace=backend"
   }
 }

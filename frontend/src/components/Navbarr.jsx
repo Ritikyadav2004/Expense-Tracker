@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ExpenseOption from './ExpenseOption';
 import UserContext from '../context/UserContext';
+import Logo from './Logo';
 
 function Navbarr() {
   const { user, setUser } = useContext(UserContext) || { user: null, setUser: () => {} };
@@ -23,13 +24,7 @@ function Navbarr() {
           
           {/* LEFT: Brand / Logo */}
           <div className="flex items-center justify-start shrink-0">
-            <Link 
-              to="/" 
-              className="text-2xl sm:text-[30px] font-normal font-editorial text-slate-900 tracking-tight no-underline hover:opacity-85 transition-opacity leading-none"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-            >
-              Trackify<sup className="text-[10px] sm:text-xs font-sans ml-0.5 tracking-normal">®</sup>
-            </Link>
+            <Logo size="md" />
           </div>
 
           {/* CENTER: Navigation links (Hidden on mobile, centered on desktop) */}
@@ -151,6 +146,13 @@ function Navbarr() {
               className={`block px-2 py-1.5 rounded-lg no-underline ${isActive('/add-expense') ? 'bg-slate-100 text-black font-semibold' : 'text-slate-800'}`}
             >
               Add Expense
+            </Link>
+            <Link 
+              to="/edit-expense" 
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block px-2 py-1.5 rounded-lg no-underline ${isActive('/edit-expense') ? 'bg-slate-100 text-black font-semibold' : 'text-slate-800'}`}
+            >
+              Edit Expense
             </Link>
             <Link 
               to="/view-expense" 

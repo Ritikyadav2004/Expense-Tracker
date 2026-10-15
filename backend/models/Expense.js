@@ -19,6 +19,12 @@ const expenseSchema = new mongoose.Schema({
     required: [true, 'Date is required'],
     default: Date.now // agar date na bheji jaye toh aaj ki date select ho jayegi
   },
+  description:{
+  type:String,
+  trim:true
+
+ 
+  },
 
    user: {
     type: mongoose.Schema.Types.ObjectId, //  unique ObjectId type  og Mongodb

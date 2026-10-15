@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 const AddExpense = () => {
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
+  const [description, setDescription] = useState('');
   const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
@@ -32,6 +33,7 @@ const AddExpense = () => {
       category,
       amount: Number(amount),
       date,
+      description: description.trim(),
       userId: user.id || user._id
     };
 
@@ -44,6 +46,7 @@ const AddExpense = () => {
       setStatusType('success');
       setCategory('');
       setAmount('');
+      setDescription('');
       fetchExpenses();
     } catch (error) {
       console.error("Save Expense Error:", error);
@@ -154,6 +157,24 @@ const AddExpense = () => {
                     className="w-full bg-slate-50/50 border border-slate-200 rounded-xl pl-8 pr-4 py-3 text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white transition"
                   />
                 </div>
+              </div>
+
+              {/* Description Input */}
+              <div>
+                <label 
+                  htmlFor="description" 
+                  className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2 font-sans"
+                >
+                  Description <span className="normal-case tracking-normal text-slate-400">(Optional)</span>
+                </label>
+                <textarea
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Add a note about this expense"
+                  rows="3"
+                  className="w-full resize-none bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white transition"
+                />
               </div>
 
               {/* Date Input */}

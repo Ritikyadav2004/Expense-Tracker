@@ -19,6 +19,7 @@ function ExpenseCard({ mode }) {
   const [editingExpense, setEditingExpense] = useState(null);
   const [editCategory, setEditCategory] = useState('');
   const [editAmount, setEditAmount] = useState('');
+  const [editDescription, setEditDescription] = useState('');
   const [editDate, setEditDate] = useState('');
 
   /**
@@ -29,6 +30,7 @@ function ExpenseCard({ mode }) {
     setEditingExpense(expense);
     setEditCategory(expense.category);
     setEditAmount(expense.amount);
+    setEditDescription(expense.description || '');
     try {
       const parsedDate = new Date(expense.date).toISOString().split('T')[0];
       setEditDate(parsedDate);
@@ -52,7 +54,8 @@ function ExpenseCard({ mode }) {
       await updateExpense(editingExpense._id, {
         category: editCategory,
         amount: Number(editAmount),
-        date: editDate
+        date: editDate,
+        description: editDescription.trim()
       });
       setStatusMessage("Expense item updated successfully!");
       setStatusType('success');
@@ -307,6 +310,11 @@ function ExpenseCard({ mode }) {
                       ₹ {Number(expense.amount).toFixed(2)}
                     </div>
                   </div>
+                  {expense.description && (
+                    <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                      {expense.description}
+                    </p>
+                  )}
                 </div>
 
                 {/* Card Actions for Edit or Delete mode */}
@@ -403,6 +411,20 @@ function ExpenseCard({ mode }) {
                     className="w-full bg-slate-50/50 border border-slate-200 rounded-xl pl-8 pr-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white transition"
                   />
                 </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5 font-sans">
+                  Description <span className="normal-case tracking-normal text-slate-400">(Optional)</span>
+                </label>
+                <textarea
+                  value={editDescription}
+                  onChange={(e) => setEditDescription(e.target.value)}
+                  placeholder="Add a note about this expense"
+                  rows="3"
+                  className="w-full resize-none bg-slate-50/50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white transition"
+                />
               </div>
 
               {/* Date */}

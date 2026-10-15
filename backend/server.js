@@ -88,11 +88,11 @@ app.get('/api/expenses', async (req, res) => {
  */
 app.post('/api/expenses', async (req, res) => {
   try {
-    const { category, amount, date, userId } = req.body;
+    const { category, amount, date, userId , description } = req.body;
     if (!userId) {
       return res.status(400).json({ error: "User ID is required to add expense!" });
     }
-    const newExpense = new Expense({ category, amount, date, user: userId });
+    const newExpense = new Expense({ category, amount, date, user: userId  , description });
     await newExpense.save();
     res.status(201).json(newExpense);
   } catch (error) {
@@ -107,10 +107,10 @@ app.post('/api/expenses', async (req, res) => {
 app.put('/api/expenses/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { category, amount, date } = req.body;
+    const { category, amount, date, description } = req.body;
     const updatedExpense = await Expense.findByIdAndUpdate(
       id,
-      { category, amount, date },
+      { category, amount, date, description },
       { new: true, runValidators: true }
     );
     if (!updatedExpense) {
